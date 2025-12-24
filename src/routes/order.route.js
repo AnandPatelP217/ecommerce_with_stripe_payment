@@ -3,6 +3,7 @@ import {
     createOrder,
     verifyPayment,
     getOrder,
+    getOrderByPaymentIntent,
     getCustomerOrders,
     getAllOrders
 } from '../controllers/order.controller.js';
@@ -16,6 +17,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), handleStripeW
 
 router.post('/create', createOrder);
 router.post('/verify', verifyPayment);
+router.get('/payment-intent/:paymentIntentId', getOrderByPaymentIntent);
 router.get('/:orderId', getOrder);
 router.get('/customer/orders', getCustomerOrders);
 router.get('/', getAllOrders);

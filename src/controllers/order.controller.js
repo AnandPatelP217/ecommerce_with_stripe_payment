@@ -117,6 +117,25 @@ export const getOrder = async (req, res, next) => {
 };
 
 /**
+ * Get order by Stripe payment intent ID
+ */
+export const getOrderByPaymentIntent = async (req, res, next) => {
+    try {
+        const { paymentIntentId } = req.params;
+
+        if (!paymentIntentId) {
+            throw new AppError('Payment Intent ID is required', STATUS.BAD_REQUEST);
+        }
+
+        const order = await orderService.getOrderByStripePaymentIntentId(paymentIntentId);
+
+        sendResponse(res, STATUS.OK, 'Order retrieved successfully', { order });
+    } catch (error) {
+        next(error);
+    }
+};
+
+/**
  * Get orders by customer email
  */
 export const getCustomerOrders = async (req, res, next) => {
